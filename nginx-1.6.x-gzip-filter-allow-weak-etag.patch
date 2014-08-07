@@ -1,0 +1,16 @@
+diff -Bbu -ur nginx-1.6.1/src/http/modules/ngx_http_gzip_filter_module.c nginx-1.6.1-gzip-filter-allow-weak-etag-patched/src/http/modules/ngx_http_gzip_filter_module.c
+--- nginx-1.6.1/src/http/modules/ngx_http_gzip_filter_module.c	2014-08-05 20:18:35.000000000 +0900
++++ nginx-1.6.1-gzip-filter-allow-weak-etag-patched/src/http/modules/ngx_http_gzip_filter_module.c	2014-08-07 11:07:03.000000000 +0900
+@@ -306,7 +306,12 @@
+ 
+     ngx_http_clear_content_length(r);
+     ngx_http_clear_accept_ranges(r);
++    
++    /* Clear etags unless they're marked as weak (prefixed with 'W/') */
++    h = r->headers_out.etag;
++    if (h && ngx_strncmp(h->value.data, "W/\"", 3) != 0) {
+     ngx_http_clear_etag(r);
++    }
+ 
+     return ngx_http_next_header_filter(r);
+ }
