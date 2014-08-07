@@ -1,4 +1,4 @@
-# Nginx patch to allow gzip filter to keep a weak ETag
+# Nginx patch to allow gzip filter to keep weak ETag
 
 Nginx gzip filter module removes ETag every time gzip compression being applied whether the ETag is strong or weak. However, a weak ETag validator doesn't require that the resources to be compared are byte-for-byte identical. Hence a weak ETag header should be kept during gzip compression. Actually the latest version of nginx (1.7.x) has ETag downgrade functionality instead of clearing all ETag. ( see [here](http://hg.nginx.org/nginx/rev/e491b26fa5a1) )
 
